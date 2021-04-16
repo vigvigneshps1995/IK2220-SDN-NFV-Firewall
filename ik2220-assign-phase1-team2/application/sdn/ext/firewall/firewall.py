@@ -96,14 +96,15 @@ class FirewallSwitch():
             if packet.type == PKT.ethernet.IP_TYPE:	
                 ip_pkt = packet.payload
                 STATEFUL_EXPIRE_TIMEOUT = 1
+                send_priority = 50
                 # install a temporary flow from inside to outside
                 self.install_rule(dl_type=packet.type, nw_src=ip_pkt.srcip, nw_dst=ip_pkt.dstip,
                                   nw_proto=ip_pkt.protocol, in_port=2, out_port=1, 
-                                  priority=50, idle_timeout=STATEFUL_EXPIRE_TIMEOUT)
+                                  priority=send_priority, idle_timeout=STATEFUL_EXPIRE_TIMEOUT)
                 # install a temporary flow from outside to inisde with reversed ips
                 self.install_rule(dl_type=packet.type, nw_src=ip_pkt.dstip, nw_dst=ip_pkt.srcip,
                                   nw_proto=ip_pkt.protocol, in_port=1, out_port=2,
-                                  priority=50, idle_timeout=STATEFUL_EXPIRE_TIMEOUT)
+                                  priority=send_priority, idle_timeout=STATEFUL_EXPIRE_TIMEOUT)
                 # resend packet back to firewall
                 self.resend_packet(packet, 1)
 
