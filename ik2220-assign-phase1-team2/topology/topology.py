@@ -55,6 +55,7 @@ def start_web_servers(net):
 def start_arp(net):
     for host in ["h1","h2","h3","h4"]:
 	client = net.get(host)
+	# access web server through 100.0.0.30 for loadbalance
 	client.cmd("arp -s 100.0.0.30 00:00:00:00:00:14")
 
 
