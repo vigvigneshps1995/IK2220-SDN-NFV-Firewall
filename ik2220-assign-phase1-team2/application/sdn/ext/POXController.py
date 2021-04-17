@@ -7,15 +7,16 @@ import pox.openflow.libopenflow_01 as of
 # pox components
 from pox.forwarding.l2_learning import LearningSwitch
 from firewall.firewall import FirewallSwitch
-
+from loadBalancer.lb import load_balancer
 
 # logger
 logger = core.getLogger()
 
 # CONSTANTS
-switches = [1, 2, 3, 4]
+switches = [1, 2, 3]
 firewall_1 = 5
 firewall_2 = 6
+loadbalancer = 4
 fw1_policyfile = os.path.join(os.getcwd(), "ext/firewall/fw1_policies.conf")
 fw2_policyfile = os.path.join(os.getcwd(), "ext/firewall/fw2_policies.conf")
 
@@ -35,6 +36,9 @@ class FirewallController():
         elif event.dpid == firewall_2:
             logger.debug("Initializing firewall 2 on switch %s" % (event.dpid))
             FirewallSwitch(event.connection, policy_file=fw2_policyfile, stateful=True)
+		elif event.dpid == loadbalancer:
+	    	logger.debug("Initializing load balancer on switch %s" % (event.dpid))
+	    	load_balancer(event.connection)
         else:
             logger.debug("Unknown switch dpid %s" % (event.dpid))
 
