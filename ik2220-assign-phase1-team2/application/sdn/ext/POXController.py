@@ -36,9 +36,9 @@ class FirewallController():
         elif event.dpid == firewall_2:
             logger.debug("Initializing firewall 2 on switch %s" % (event.dpid))
             FirewallSwitch(event.connection, policy_file=fw2_policyfile, stateful=True)
-		elif event.dpid == loadbalancer:
-	    	logger.debug("Initializing load balancer on switch %s" % (event.dpid))
-	    	load_balancer(event.connection)
+	elif event.dpid == loadbalancer:
+	    logger.debug("Initializing load balancer on switch %s" % (event.dpid))
+	    load_balancer(event.connection)
         else:
             logger.debug("Unknown switch dpid %s" % (event.dpid))
 
