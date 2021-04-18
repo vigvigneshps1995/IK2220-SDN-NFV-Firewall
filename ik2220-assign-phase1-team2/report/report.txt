@@ -1,7 +1,0 @@
-Hello,testing starts!
-[Test1]From PbZ: h1 ping PrZ: 100.0.0.50: it should not work!
-SUCCEED!
-[Test1]From PbZ: h1 ping PrZ: 100.0.0.51: it should not work!
-SUCCEED!
-[Test2]From PbZ: h1 ping DmZ: 100.0.0.40 port = 80: it should work!
-FAIL!

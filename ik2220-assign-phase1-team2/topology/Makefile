@@ -1,3 +1,6 @@
+test:
+	@sudo python test.py
+
 topo:
 	@sudo python topology.py
 
