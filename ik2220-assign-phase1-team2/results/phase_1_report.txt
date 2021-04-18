@@ -1,0 +1,244 @@
+Hello,testing starts!
+[Test1]From PbZ: h1 ping PrZ: 100.0.0.50: it should not work!
+h1 ping -c 1 -W 1 100.0.0.50
+SUCCEED!
+[Test1]From PbZ: h1 ping PrZ: 100.0.0.51: it should not work!
+h1 ping -c 1 -W 1 100.0.0.51
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.40 port = 80: it should work!
+h1 curl --connect-timeout 2 100.0.0.40:80 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.40 random port = 9538: it should not work!
+h1 curl --connect-timeout 2 100.0.0.40:9538 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.40 random port = 120: it should not work!
+h1 curl --connect-timeout 2 100.0.0.40:120 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.40 random port = 6945: it should not work!
+h1 curl --connect-timeout 2 100.0.0.40:6945 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.40 random port = 6838: it should not work!
+h1 curl --connect-timeout 2 100.0.0.40:6838 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.40 random port = 8143: it should not work!
+h1 curl --connect-timeout 2 100.0.0.40:8143 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.41 port = 80: it should work!
+h1 curl --connect-timeout 2 100.0.0.41:80 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.41 random port = 4176: it should not work!
+h1 curl --connect-timeout 2 100.0.0.41:4176 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.41 random port = 7777: it should not work!
+h1 curl --connect-timeout 2 100.0.0.41:7777 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.41 random port = 1946: it should not work!
+h1 curl --connect-timeout 2 100.0.0.41:1946 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.41 random port = 2003: it should not work!
+h1 curl --connect-timeout 2 100.0.0.41:2003 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.41 random port = 5034: it should not work!
+h1 curl --connect-timeout 2 100.0.0.41:5034 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.42 port = 80: it should work!
+h1 curl --connect-timeout 2 100.0.0.42:80 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.42 random port = 7491: it should not work!
+h1 curl --connect-timeout 2 100.0.0.42:7491 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.42 random port = 1715: it should not work!
+h1 curl --connect-timeout 2 100.0.0.42:1715 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.42 random port = 2486: it should not work!
+h1 curl --connect-timeout 2 100.0.0.42:2486 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.42 random port = 9416: it should not work!
+h1 curl --connect-timeout 2 100.0.0.42:9416 -I
+SUCCEED!
+[Test2]From PbZ: h1 ping DmZ: 100.0.0.42 random port = 8284: it should not work!
+h1 curl --connect-timeout 2 100.0.0.42:8284 -I
+SUCCEED!
+[Test1]From PbZ: h2 ping PrZ: 100.0.0.50: it should not work!
+h2 ping -c 1 -W 1 100.0.0.50
+SUCCEED!
+[Test1]From PbZ: h2 ping PrZ: 100.0.0.51: it should not work!
+h2 ping -c 1 -W 1 100.0.0.51
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.40 port = 80: it should work!
+h2 curl --connect-timeout 2 100.0.0.40:80 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.40 random port = 9787: it should not work!
+h2 curl --connect-timeout 2 100.0.0.40:9787 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.40 random port = 360: it should not work!
+h2 curl --connect-timeout 2 100.0.0.40:360 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.40 random port = 9752: it should not work!
+h2 curl --connect-timeout 2 100.0.0.40:9752 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.40 random port = 8524: it should not work!
+h2 curl --connect-timeout 2 100.0.0.40:8524 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.40 random port = 241: it should not work!
+h2 curl --connect-timeout 2 100.0.0.40:241 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.41 port = 80: it should work!
+h2 curl --connect-timeout 2 100.0.0.41:80 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.41 random port = 4431: it should not work!
+h2 curl --connect-timeout 2 100.0.0.41:4431 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.41 random port = 2404: it should not work!
+h2 curl --connect-timeout 2 100.0.0.41:2404 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.41 random port = 6369: it should not work!
+h2 curl --connect-timeout 2 100.0.0.41:6369 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.41 random port = 1998: it should not work!
+h2 curl --connect-timeout 2 100.0.0.41:1998 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.41 random port = 6471: it should not work!
+h2 curl --connect-timeout 2 100.0.0.41:6471 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.42 port = 80: it should work!
+h2 curl --connect-timeout 2 100.0.0.42:80 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.42 random port = 4459: it should not work!
+h2 curl --connect-timeout 2 100.0.0.42:4459 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.42 random port = 1060: it should not work!
+h2 curl --connect-timeout 2 100.0.0.42:1060 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.42 random port = 2975: it should not work!
+h2 curl --connect-timeout 2 100.0.0.42:2975 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.42 random port = 7370: it should not work!
+h2 curl --connect-timeout 2 100.0.0.42:7370 -I
+SUCCEED!
+[Test2]From PbZ: h2 ping DmZ: 100.0.0.42 random port = 7159: it should not work!
+h2 curl --connect-timeout 2 100.0.0.42:7159 -I
+SUCCEED!
+[Test3]: From PrZ to PbZ, it should be ok
+[Test3]From PrZ: h3 ping PbZ: 100.0.0.10: it should work!
+h3 ping -c 1 -W 1 100.0.0.10
+SUCCEED!
+[Test3]From PrZ: h3 ping PbZ: 100.0.0.11: it should work!
+h3 ping -c 1 -W 1 100.0.0.11
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.40 port = 80: it should work!
+h3 curl --connect-timeout 2 100.0.0.40:80 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.40 random port = 7957: it should not work!
+h3 curl --connect-timeout 2 100.0.0.40:7957 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.40 random port = 4121: it should not work!
+h3 curl --connect-timeout 2 100.0.0.40:4121 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.40 random port = 9969: it should not work!
+h3 curl --connect-timeout 2 100.0.0.40:9969 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.40 random port = 870: it should not work!
+h3 curl --connect-timeout 2 100.0.0.40:870 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.40 random port = 3599: it should not work!
+h3 curl --connect-timeout 2 100.0.0.40:3599 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.41 port = 80: it should work!
+h3 curl --connect-timeout 2 100.0.0.41:80 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.41 random port = 6814: it should not work!
+h3 curl --connect-timeout 2 100.0.0.41:6814 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.41 random port = 4855: it should not work!
+h3 curl --connect-timeout 2 100.0.0.41:4855 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.41 random port = 491: it should not work!
+h3 curl --connect-timeout 2 100.0.0.41:491 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.41 random port = 8167: it should not work!
+h3 curl --connect-timeout 2 100.0.0.41:8167 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.41 random port = 6815: it should not work!
+h3 curl --connect-timeout 2 100.0.0.41:6815 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.42 port = 80: it should work!
+h3 curl --connect-timeout 2 100.0.0.42:80 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.42 random port = 6487: it should not work!
+h3 curl --connect-timeout 2 100.0.0.42:6487 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.42 random port = 228: it should not work!
+h3 curl --connect-timeout 2 100.0.0.42:228 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.42 random port = 266: it should not work!
+h3 curl --connect-timeout 2 100.0.0.42:266 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.42 random port = 2763: it should not work!
+h3 curl --connect-timeout 2 100.0.0.42:2763 -I
+SUCCEED!
+[Test2]From PrZ: h3 ping DmZ: 100.0.0.42 random port = 3601: it should not work!
+h3 curl --connect-timeout 2 100.0.0.42:3601 -I
+SUCCEED!
+[Test3]From PrZ: h4 ping PbZ: 100.0.0.10: it should work!
+h4 ping -c 1 -W 1 100.0.0.10
+SUCCEED!
+[Test3]From PrZ: h4 ping PbZ: 100.0.0.11: it should work!
+h4 ping -c 1 -W 1 100.0.0.11
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.40 port = 80: it should work!
+h4 curl --connect-timeout 2 100.0.0.40:80 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.40 random port = 3720: it should not work!
+h4 curl --connect-timeout 2 100.0.0.40:3720 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.40 random port = 8778: it should not work!
+h4 curl --connect-timeout 2 100.0.0.40:8778 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.40 random port = 3531: it should not work!
+h4 curl --connect-timeout 2 100.0.0.40:3531 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.40 random port = 1487: it should not work!
+h4 curl --connect-timeout 2 100.0.0.40:1487 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.40 random port = 5390: it should not work!
+h4 curl --connect-timeout 2 100.0.0.40:5390 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.41 port = 80: it should work!
+h4 curl --connect-timeout 2 100.0.0.41:80 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.41 random port = 2843: it should not work!
+h4 curl --connect-timeout 2 100.0.0.41:2843 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.41 random port = 2693: it should not work!
+h4 curl --connect-timeout 2 100.0.0.41:2693 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.41 random port = 4965: it should not work!
+h4 curl --connect-timeout 2 100.0.0.41:4965 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.41 random port = 7354: it should not work!
+h4 curl --connect-timeout 2 100.0.0.41:7354 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.41 random port = 851: it should not work!
+h4 curl --connect-timeout 2 100.0.0.41:851 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.42 port = 80: it should work!
+h4 curl --connect-timeout 2 100.0.0.42:80 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.42 random port = 4824: it should not work!
+h4 curl --connect-timeout 2 100.0.0.42:4824 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.42 random port = 5981: it should not work!
+h4 curl --connect-timeout 2 100.0.0.42:5981 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.42 random port = 5887: it should not work!
+h4 curl --connect-timeout 2 100.0.0.42:5887 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.42 random port = 7994: it should not work!
+h4 curl --connect-timeout 2 100.0.0.42:7994 -I
+SUCCEED!
+[Test2]From PrZ: h4 ping DmZ: 100.0.0.42 random port = 5735: it should not work!
+h4 curl --connect-timeout 2 100.0.0.42:5735 -I
+SUCCEED!
+Testing finished
+ The final score is 80/80

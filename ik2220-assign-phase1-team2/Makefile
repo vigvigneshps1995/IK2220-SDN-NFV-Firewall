@@ -7,7 +7,7 @@ topo:
 	@cd topology/ && sudo make topo
 
 test:
-	@sudo make clean && sudo make app && cd topology/ && sudo make test
+	@cd topology/ && sudo make test
 	
 clean:
 	@echo -n "Cleaning POX...      " 
