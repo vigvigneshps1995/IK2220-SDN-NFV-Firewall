@@ -86,15 +86,15 @@ def test(net):
                 
             for DmZ_s in ['100.0.0.40','100.0.0.41','100.0.0.42']:
                 f.write('[Test2]From PbZ: {} ping DmZ: {} port = 80: it should work!\n'.format(PbZ_h, DmZ_s))
-                std = str(PbZ_h.cmd('curl --connect-timeout 0.2 {}:80 -I'.format(DmZ_s)))
-                log = str(PbZ_h.cmd('curl --connect-timeout 0.2 {}:80 -I'.format(DmZ_s)))
+                std = str(PbZ_h.cmd('curl --connect-timeout 2 {}:80 -I'.format(DmZ_s)))
+                log = str(PbZ_h.cmd('curl --connect-timeout 2 {}:80 -I'.format(DmZ_s)))
                 f.write( succeed() if log[1:20] == std[1:20] else fail())
                 
-                for a in range(10):
+                for a in range(5):
                     port = random.randint(1,10000)
                     f.write('[Test2]From PbZ: {} ping DmZ: {} random port = {}: it should not work!\n'.format(PbZ_h, DmZ_s,port))
-                    log = str(PbZ_h.cmd('curl --connect-timeout 0.2 {}:{} -I'.format(DmZ_s,port)))
-                    f.write( succeed() if log[1:20] != std[1:20] else fail())
+                    log = str(PbZ_h.cmd('curl --connect-timeout 2 {}:{} -I'.format(DmZ_s,port)))
+                    f.write( succeed() if log != std else fail())
                 
         
         f.write("[Test3]: From PrZ to PbZ, it should be ok\n")
@@ -108,15 +108,15 @@ def test(net):
                 
             for DmZ_s in ['100.0.0.40','100.0.0.41','100.0.0.42']:
                 f.write('[Test2]From PrZ: {} ping DmZ: {} port = 80: it should work!\n'.format(PrZ_h, DmZ_s))
-                std = str(PrZ_h.cmd('curl --connect-timeout 0.2 {}:80 -I'.format(DmZ_s)))
-                log = str(PrZ_h.cmd('curl --connect-timeout 0.2 {}:80 -I'.format(DmZ_s)))
+                std = str(PrZ_h.cmd('curl --connect-timeout 2 {}:80 -I'.format(DmZ_s)))
+                log = str(PrZ_h.cmd('curl --connect-timeout 2 {}:80 -I'.format(DmZ_s)))
                 f.write( succeed() if log[1:20] == std[1:20] else fail())
                 
-                for a in range(10):
+                for a in range(5):
                     port = random.randint(1,10000)
                     f.write('[Test2]From PrZ: {} ping DmZ: {} random port = {}: it should not work!\n'.format(PrZ_h, DmZ_s,port))
-                    log = str(PrZ_h.cmd('curl --connect-timeout 0.2 {}:{} -I'.format(DmZ_s,port)))
-                    f.write( succeed() if log[1:20] != std[1:20] else fail())
+                    log = str(PrZ_h.cmd('curl --connect-timeout 2 {}:{} -I'.format(DmZ_s,port)))
+                    f.write( succeed() if log != std else fail())
         
         f.write('Testing finished\n The final score is {}/{}\n'.format(scoreTest,numberTest))
         f.close()
