@@ -34,8 +34,8 @@ class load_balancer (object):
 
         msg = of.ofp_flow_mod()
         msg.match = of.ofp_match.from_packet(packet)
-	    # server ip flag
-	    ip_flag = 0;
+	# server ip flag
+	ip_flag = 0;
 
         # IP check
         if (msg.match.nw_dst != virtual_ip): 
@@ -73,11 +73,11 @@ class load_balancer (object):
 
         reverse_msg.match.dl_dst = msg.match.dl_src
         reverse_msg.match.nw_dst = msg.match.nw_src
-	    reverse_msg.match.tp_dst = msg.match.tp_src
-	    if (ip_flag == 1):
+	reverse_msg.match.tp_dst = msg.match.tp_src
+	if (ip_flag == 1):
 	    reverse_ip = msg.match.nw_dst
 	    reverse_mac = msg.match.dl_dst
-	    else:
+	else:
 	    reverse_ip = virtual_ip
 	    reverse_mac = virtual_mac
 
