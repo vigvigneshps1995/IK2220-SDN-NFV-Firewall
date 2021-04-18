@@ -12,6 +12,7 @@ server[0] = {'ip':IPAddr("100.0.0.40"), 'mac':EthAddr("00:00:00:00:00:05"), 'out
 server[1] = {'ip':IPAddr("100.0.0.41"), 'mac':EthAddr("00:00:00:00:00:06"), 'outport': 2}
 server[2] = {'ip':IPAddr("100.0.0.42"), 'mac':EthAddr("00:00:00:00:00:07"), 'outport': 3}
 total_servers = len(server)
+server_ip_list = {IPAddr("100.0.0.40"), IPAddr("100.0.0.41"), IPAddr("100.0.0.42")}
 
 server_index = 0 
 
@@ -33,10 +34,15 @@ class load_balancer (object):
 
         msg = of.ofp_flow_mod()
         msg.match = of.ofp_match.from_packet(packet)
+	    # server ip flag
+	    ip_flag = 0;
 
         # IP check
-        if (msg.match.nw_dst != virtual_ip):
-            return EventContinue
+        if (msg.match.nw_dst != virtual_ip): 
+	    if(msg.match.nw_dst in server_ip_list):
+	        ip_flag = 1;
+            else:
+	    	return EventContinue
 
         # Roundrobin 
         index = server_index % total_servers
@@ -67,10 +73,16 @@ class load_balancer (object):
 
         reverse_msg.match.dl_dst = msg.match.dl_src
         reverse_msg.match.nw_dst = msg.match.nw_src
-        reverse_msg.match.tp_dst = msg.match.tp_src
+	    reverse_msg.match.tp_dst = msg.match.tp_src
+	    if (ip_flag == 1):
+	    reverse_ip = msg.match.nw_dst
+	    reverse_mac = msg.match.dl_dst
+	    else:
+	    reverse_ip = virtual_ip
+	    reverse_mac = virtual_mac
 
-        reverse_msg.actions.append(of.ofp_action_dl_addr(of.OFPAT_SET_DL_SRC, virtual_mac))
-        reverse_msg.actions.append(of.ofp_action_nw_addr(of.OFPAT_SET_NW_SRC, virtual_ip))
+        reverse_msg.actions.append(of.ofp_action_dl_addr(of.OFPAT_SET_DL_SRC, reverse_mac))
+        reverse_msg.actions.append(of.ofp_action_nw_addr(of.OFPAT_SET_NW_SRC, reverse_ip))
         reverse_msg.actions.append(of.ofp_action_output(port = msg.in_port))
         event.connection.send(reverse_msg)
 
@@ -79,3 +91,4 @@ class load_balancer (object):
     def launch ():
         core.openflow.addListenerByName("PacketIn", _handle_PacketIn, priority=2)
         log.debug("Load Balancer is running")
+
