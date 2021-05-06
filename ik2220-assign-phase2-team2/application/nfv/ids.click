@@ -1,7 +1,7 @@
 define (
-    $in_intf sw1-eth1,
-    $out_intf sw1-eth2,
-    $insp_intf sw1-eth3,
+    $in_intf sw7-eth1,
+    $out_intf sw7-eth2,
+    $insp_intf sw7-eth3,
 )
 
 

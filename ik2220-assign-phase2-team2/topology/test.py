@@ -1,8 +1,11 @@
+import random
+
 from mininet.topo import Topo
 from mininet.net import Mininet
 from mininet.cli import CLI
 from mininet.node import RemoteController, OVSSwitch, Switch
-import random
+
+from IDSTests import TestIDS
 
 class Topology(Topo):
 
@@ -16,6 +19,7 @@ class Topology(Topo):
         sw4 = self.addSwitch("sw4", mac="00:00:00:00:00:14")
         fw1 = self.addSwitch("sw5")
         fw2 = self.addSwitch("sw6")
+        ids = self.addSwitch("sw7")
 
         ### PUBLIC ZONE ###
         h1 = self.addHost("h1", ip="100.0.0.10/24", mac="00:00:00:00:00:01")
@@ -33,10 +37,13 @@ class Topology(Topo):
         ws1 = self.addHost("ws1", ip="100.0.0.40/24", mac="00:00:00:00:00:05")
         ws2 = self.addHost("ws2", ip="100.0.0.41/24", mac="00:00:00:00:00:06")
         ws3 = self.addHost("ws3", ip="100.0.0.42/24", mac="00:00:00:00:00:07")
+        insp = self.addHost("insp", ip="100.0.0.30/24", mac="00:00:00:00:00:08")
         self.addLink(ws1, sw4)
         self.addLink(ws2, sw4)
         self.addLink(ws3, sw4)
-        self.addLink(sw2, sw4)
+        self.addLink(sw2, ids)
+        self.addLink(ids, sw4)
+        self.addLink(ids, insp)
 
         # ### INTERZONE LINKS ###
         self.addLink(sw1, fw1)
@@ -52,11 +59,21 @@ def start_web_servers(net):
         server = net.get(ws)
         server.cmd("python2 -m SimpleHTTPServer 80 &")
 
+
 def start_arp(net):
     for host in ["h1","h2","h3","h4"]:
 	client = net.get(host)
 	# access web server through 100.0.0.30 for loadbalance
 	client.cmd("arp -s 100.0.0.30 00:00:00:00:00:14")
+
+
+def start_tshark(net):
+    # start web servers
+    for host in ["insp"]:
+        print("Starting Wireshark on host %s on interface insp-eth0" % host.upper()) 
+        server = net.get(host)
+        server.cmd("tshark -i insp-eth0 -w /opt/IDS.pcap &")
+
 
 def test(net):
 	
@@ -140,8 +157,15 @@ def setup():
     start_web_servers(net)
     # virtual ip
     start_arp(net)
+    # start tshark
+    start_tshark(net)
+
     # test
-    test(net)
+    ids_tests = TestIDS(net)
+    ids_tests.run_tests()
+    summary, total_tests, passed_tests = ids_tests.get_results()   #### integrate these stats with the other test stats
+    # test(net)
+
     # start cli
     CLI(net)
 

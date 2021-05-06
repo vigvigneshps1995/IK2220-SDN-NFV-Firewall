@@ -48,6 +48,8 @@ class PolicyParser:
                 else:
                     if l[0] == "IP":
                         parsed_rules[i]["dl_type"] = PKT.ethernet.IP_TYPE
+                    elif l[0] == "ARP":
+                        parsed_rules[i]["dl_type"] = PKT.ethernet.ARP_TYPE
                 # parse nw_src
                 if l[1] == '-':
                     parsed_rules[i].pop("nw_src")

@@ -55,11 +55,21 @@ def start_web_servers(net):
         server = net.get(ws)
         server.cmd("python2 -m SimpleHTTPServer 80 &")
 
+
 def start_arp(net):
     for host in ["h1","h2","h3","h4"]:
 	client = net.get(host)
 	# access web server through 100.0.0.30 for loadbalance
 	client.cmd("arp -s 100.0.0.30 00:00:00:00:00:14")
+
+
+def start_tshark(net):
+    # start web servers
+    for host in ["insp"]:
+        print("Starting Wireshark on host %s on interface insp-eth0" % host.upper()) 
+        server = net.get(host)
+        server.cmd("tshark -i insp-eth0 -w /opt/IDS.pcap &")
+
 
 def setup():
     # create a topology
@@ -74,6 +84,8 @@ def setup():
     start_web_servers(net)
     # virtual ip
     start_arp(net)
+    # start tshark
+    start_tshark(net)
 
     # start cli
     CLI(net)

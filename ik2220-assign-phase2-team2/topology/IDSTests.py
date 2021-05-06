@@ -9,10 +9,10 @@ from mininet.node import RemoteController, OVSSwitch, Switch
 
 class TestIDS:
 
-    HOSTS = ['h1']
-    WEB_SERVERS = ['100.0.0.11']
-    LOAD_BALANCER_IP = '100.0.0.11'
-    INSPECTER_HOST = 'h3'
+    HOSTS = ['h1', 'h2', 'h3', 'h4']
+    WEB_SERVERS = ['100.0.0.40', '100.0.0.41', '100.0.0.42']
+    LOAD_BALANCER_IP = '100.0.0.45'
+    INSPECTER_HOST = 'insp'
 
     def __init__(self, mininet_ctrl):
         self.ctrl = mininet_ctrl
@@ -52,17 +52,17 @@ class TestIDS:
         self.tests.append("Outside host must be able to send ARP requests to Load Balancer")
         tmp1, tmp2, tmp3 = [], [], []
         for host in TestIDS.HOSTS:
-            self._flush_std_out(host)
-            print("\tARP [%s -> %s]" % (host, TestIDS.LOAD_BALANCER_IP)),
-            tmp1.append("ARP [%s -> %s]" % (host, TestIDS.LOAD_BALANCER_IP))
-            clear_arp_cache_cmd = 'sudo ip link set arp off dev {0}-eth0; sudo ip link set arp on dev {0}-eth0'.format(host)
-            test_cmd = self._get_ping_cmd(TestIDS.LOAD_BALANCER_IP)
-            tmp2.append(test_cmd)
-            mininet_host = self.ctrl.get(host)
-            mininet_host.cmd(clear_arp_cache_cmd)
-            res = int(mininet_host.cmd(test_cmd))
-            print ("\t\t%s" % ('PASS' if res == 0 else 'FAIL'))
-            tmp3.append(self._PASS if res == 0 else self._FAIL)
+           self._flush_std_out(host)
+           print("\tARP [%s -> %s]" % (host, TestIDS.LOAD_BALANCER_IP)),
+           tmp1.append("ARP [%s -> %s]" % (host, TestIDS.LOAD_BALANCER_IP))
+           clear_arp_cache_cmd = 'sudo ip link set arp off dev {0}-eth0; sudo ip link set arp on dev {0}-eth0'.format(host)
+           test_cmd = self._get_ping_cmd(TestIDS.LOAD_BALANCER_IP)
+           tmp2.append(test_cmd)
+           mininet_host = self.ctrl.get(host)
+           mininet_host.cmd(clear_arp_cache_cmd)
+           res = int(mininet_host.cmd(test_cmd))
+           print ("\t\t%s" % ('PASS' if res == 0 else 'FAIL'))
+           tmp3.append(self._PASS if res == 0 else self._FAIL)
         self.sub_tests.append(tmp1)
         self.commands.append(tmp2)
         self.status.append(tmp3)

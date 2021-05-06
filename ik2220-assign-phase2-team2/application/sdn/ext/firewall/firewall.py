@@ -36,6 +36,7 @@ class FirewallSwitch():
                             in_port=None, out_port=None, priority=None, idle_timeout=None, hard_timeout=None):
         protocol_type = ""
         if dl_type == PKT.ethernet.IP_TYPE: dl_type = "IPV4"
+        if dl_type == PKT.ethernet.ARP_TYPE: dl_type = "ARP"
         if nw_proto == PKT.ipv4.TCP_PROTOCOL: protocol_type = "TCP" 
         if nw_proto == PKT.ipv4.UDP_PROTOCOL: protocol_type = "UDP"
         if nw_proto == PKT.ipv4.ICMP_PROTOCOL: protocol_type = "ICMP"

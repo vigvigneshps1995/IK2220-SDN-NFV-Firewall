@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 from pox.core import core
 from pox.lib.util import dpid_to_str
@@ -17,6 +18,7 @@ switches = [1, 2, 3]
 firewall_1 = 5
 firewall_2 = 6
 loadbalancer = 4
+ids = 7
 fw1_policyfile = os.path.join(os.getcwd(), "ext/firewall/fw1_policies.conf")
 fw2_policyfile = os.path.join(os.getcwd(), "ext/firewall/fw2_policies.conf")
 
@@ -36,9 +38,12 @@ class FirewallController():
         elif event.dpid == firewall_2:
             logger.debug("Initializing firewall 2 on switch %s" % (event.dpid))
             FirewallSwitch(event.connection, policy_file=fw2_policyfile, stateful=True)
-	elif event.dpid == loadbalancer:
-	    logger.debug("Initializing load balancer on switch %s" % (event.dpid))
-	    load_balancer(event.connection)
+        elif event.dpid == loadbalancer:
+            logger.debug("Initializing load balancer on switch %s" % (event.dpid))
+            load_balancer(event.connection)
+        elif event.dpid == ids:
+            logger.debug("Initializing IDS on switch %s" % (event.dpid))
+            subprocess.Popen(["sudo", "click", "../nfv/ids.click", "in_intf=sw7-eth1", "out_intf=sw7-eth2", "insp_intf=sw7-eth3"])
         else:
             logger.debug("Unknown switch dpid %s" % (event.dpid))
 
