@@ -1,0 +1,75 @@
+Hello,testing starts!
+host: h1 ping web server: 100.0.0.40 : it should not work!
+h1 curl --connect-timeout 1 100.0.0.40 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h1 ping web server: 100.0.0.41 : it should not work!
+h1 curl --connect-timeout 1 100.0.0.41 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h1 ping web server: 100.0.0.42 : it should not work!
+h1 curl --connect-timeout 1 100.0.0.42 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h1 ping loadbalancer: 100.0.0.45 : it should work!
+h1 curl --connect-timeout 1 100.0.0.45:80 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h1 ping load balancer: 100.0.0.45 : it should not work!
+h1 curl --connect-timeout 1 100.0.0.45:9072 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h1 ping load balancer: 100.0.0.45 : it should not work!
+h1 curl --connect-timeout 1 100.0.0.45:9648 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h1 ping load balancer: 100.0.0.45 : it should not work!
+h1 curl --connect-timeout 1 100.0.0.45:4317 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h1 ping load balancer: 100.0.0.45 : it should not work!
+h1 curl --connect-timeout 1 100.0.0.45:6344 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h1 ping load balancer: 100.0.0.45 : it should not work!
+h1 curl --connect-timeout 1 100.0.0.45:9227 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h2 ping web server: 100.0.0.40 : it should not work!
+h2 curl --connect-timeout 1 100.0.0.40 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h2 ping web server: 100.0.0.41 : it should not work!
+h2 curl --connect-timeout 1 100.0.0.41 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h2 ping web server: 100.0.0.42 : it should not work!
+h2 curl --connect-timeout 1 100.0.0.42 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h2 ping loadbalancer: 100.0.0.45 : it should work!
+h2 curl --connect-timeout 1 100.0.0.45:80 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h2 ping load balancer: 100.0.0.45 : it should not work!
+h2 curl --connect-timeout 1 100.0.0.45:3813 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h2 ping load balancer: 100.0.0.45 : it should not work!
+h2 curl --connect-timeout 1 100.0.0.45:5455 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h2 ping load balancer: 100.0.0.45 : it should not work!
+h2 curl --connect-timeout 1 100.0.0.45:5665 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h2 ping load balancer: 100.0.0.45 : it should not work!
+h2 curl --connect-timeout 1 100.0.0.45:1668 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h2 ping load balancer: 100.0.0.45 : it should not work!
+h2 curl --connect-timeout 1 100.0.0.45:5241 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h3 ping web server: 100.0.0.40 : it should not work!
+h3 curl --connect-timeout 1 100.0.0.40 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h3 ping web server: 100.0.0.41 : it should not work!
+h3 curl --connect-timeout 1 100.0.0.41 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h3 ping web server: 100.0.0.42 : it should not work!
+h3 curl --connect-timeout 1 100.0.0.42 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h3 ping loadbalancer: 100.0.0.45 : it should work!
+h3 curl --connect-timeout 1 100.0.0.45:80 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h3 ping load balancer: 100.0.0.45 : it should not work!
+h3 curl --connect-timeout 1 100.0.0.45:2609 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h3 ping load balancer: 100.0.0.45 : it should not work!
+h3 curl --connect-timeout 1 100.0.0.45:7785 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h3 ping load balancer: 100.0.0.45 : it should not work!
+h3 curl --connect-timeout 1 100.0.0.45:896 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h3 ping load balancer: 100.0.0.45 : it should not work!
+h3 curl --connect-timeout 1 100.0.0.45:1858 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h3 ping load balancer: 100.0.0.45 : it should not work!
+h3 curl --connect-timeout 1 100.0.0.45:7162 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h4 ping web server: 100.0.0.40 : it should not work!
+h4 curl --connect-timeout 1 100.0.0.40 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h4 ping web server: 100.0.0.41 : it should not work!
+h4 curl --connect-timeout 1 100.0.0.41 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h4 ping web server: 100.0.0.42 : it should not work!
+h4 curl --connect-timeout 1 100.0.0.42 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h4 ping loadbalancer: 100.0.0.45 : it should work!
+h4 curl --connect-timeout 1 100.0.0.45:80 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h4 ping load balancer: 100.0.0.45 : it should not work!
+h4 curl --connect-timeout 1 100.0.0.45:9242 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h4 ping load balancer: 100.0.0.45 : it should not work!
+h4 curl --connect-timeout 1 100.0.0.45:6901 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h4 ping load balancer: 100.0.0.45 : it should not work!
+h4 curl --connect-timeout 1 100.0.0.45:9412 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h4 ping load balancer: 100.0.0.45 : it should not work!
+h4 curl --connect-timeout 1 100.0.0.45:9209 -s | grep DOCTYPE | wc | awkSUCCEED!
+host: h4 ping load balancer: 100.0.0.45 : it should not work!
+h4 curl --connect-timeout 1 100.0.0.45:6607 -s | grep DOCTYPE | wc | awkSUCCEED!
+Testing finished
+ The final score is 36/36
