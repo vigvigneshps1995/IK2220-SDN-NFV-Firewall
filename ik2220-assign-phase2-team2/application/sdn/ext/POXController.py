@@ -19,6 +19,7 @@ firewall_1 = 5
 firewall_2 = 6
 loadbalancer = [80]
 ids = 7
+napt = 8
 fw1_policyfile = os.path.join(os.getcwd(), "ext/firewall/fw1_policies.conf")
 fw2_policyfile = os.path.join(os.getcwd(), "ext/firewall/fw2_policies.conf")
 
@@ -44,6 +45,9 @@ class FirewallController():
         elif event.dpid == ids:
             logger.debug("Initializing IDS on switch %s" % (event.dpid))
             subprocess.Popen(["sudo", "click", "../nfv/ids.click", "in_intf=sw7-eth1", "out_intf=sw7-eth2", "insp_intf=sw7-eth3"])
+        elif event.dpid == napt:
+            logger.debug("Initializing napt on switch %s" % (event.dpid))
+            subprocess.Popen(["sudo", "click", "../nfv/napt.click", "in_intf=sw7-eth1", "out_intf=sw7-eth2", "insp_intf=sw7-eth3"])
         else:
             logger.debug("Unknown switch dpid %s" % (event.dpid))
 

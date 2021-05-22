@@ -16,6 +16,7 @@ class Topology(Topo):
         fw1 = self.addSwitch("sw5")
         fw2 = self.addSwitch("sw6")
         ids = self.addSwitch("sw7")
+        napt = self.addSwitch("sw8")
 
         ### PUBLIC ZONE ###
         h1 = self.addHost("h1", ip="100.0.0.10/24", mac="00:00:00:00:00:01")
@@ -44,7 +45,7 @@ class Topology(Topo):
         self.addLink(ws2, sw4)
         self.addLink(ws3, sw4)
         self.addLink(sw2, ids)
-	self.addLink(ids, lb1)
+        self.addLink(ids, lb1)
         self.addLink(lb1, sw4)
         self.addLink(ids, insp)
 
@@ -52,7 +53,8 @@ class Topology(Topo):
         self.addLink(sw1, fw1)
         self.addLink(fw1, sw2)
         self.addLink(sw2, fw2)
-        self.addLink(fw2, sw3)
+        self.addLink(fw2, napt)
+        self.addLink(napt, sw3)
 
 
 def start_web_servers(net):

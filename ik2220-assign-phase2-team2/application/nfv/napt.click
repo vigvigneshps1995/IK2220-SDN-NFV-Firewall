@@ -7,15 +7,19 @@ AddressInfo(
 	PrZ		$sw_int_ip $int_if,
 );
 
+//Set up
 
-//init counter 
-//1 means in && 2 means out
 
-counter_in1, counter_in2, counter_out1, counter_out2 :: AverageCounter;
+//init count number
+//total input && output packets
+count_in1, count_in2, count_out1, count_out2 :: AverageCounter;
+
+//dropped packets
 drop1, drop2, drop3, drop4 :: Counter;
-arp_request1, arp_response1, icmp1,icmp3, ip1 :: Counter;
-arp_request2, arp_response2, icmp2,icmp4, ip2 :: Counter;
 
+//IP, ICMP, ARP packets
+ip_in, icmp_in1, icmp_in2, arp_request_1, arp_response_1 :: Counter;
+ip_out, icmp_out1, icmp_out2, arp_request_2, arp_response_2 :: Counter;
 
 //init interfaces 
 destin_ext	:: ToDevice($ext_if, METHOD LINUX);
@@ -23,39 +27,40 @@ destin_int  :: ToDevice($int_if, METHOD LINUX);
 source_ext  :: FromDevice($ext_if, METHOD LINUX, SNIFFER false);
 source_int  :: FromDevice($int_if, METHOD LINUX, SNIFFER false);
 
-
 // outgoing traffic queue init
-destin_ext_queue :: Queue(1024) -> counter_out1 -> destin_ext;
-destin_int_queue :: Queue(1024) -> counter_out2 -> destin_int;
+destin_ext_queue :: Queue(1024) -> count_out1 -> destin_ext;
+destin_int_queue :: Queue(1024) -> count_out2 -> destin_int;
 
 
-//ARP
+//Test
 
-// 12/0806 20/0001 ARP request
-// 12/0806 20/0002 ARP response
-// 12/0800 IP traffic
 
-// ARPR, ARR , IP Classifiers
-source_ext -> counter_in1 
-		 -> ext_cl :: Classifier(12/0806 20/0001, 12/0806 20/0002, 12/0800, -);
-source_int -> counter_in2
-		 -> in_cl :: Classifier(12/0806 20/0001, 12/0806 20/0002, 12/0800, -);
+// ARP request sent to output 0
+// ARP response sent to output 1
+// IP packets to output 2
+// All others to output 3
 
-// respond to ARP queries  for the router external interface
+// Test ARPR, ARR , IP Classifiers
+source_ext -> count_in1 
+		 -> external_class :: Classifier(12/0806 20/0001, 12/0806 20/0002, 12/0800, -);
+source_int -> count_in2
+		 -> internal_class :: Classifier(12/0806 20/0001, 12/0806 20/0002, 12/0800, -);
 
-ext_cl[0] -> arp_request1 -> ARPResponder(DmZ) -> Print("ARP_R_ext") -> destin_ext_queue ;
-ext_cl[1] -> arp_response1 -> [1]arp :: ARPQuerier(DmZ);
+// response to the routers external interface
 
-// respond to ARP queries for the router internal interface
-in_cl[0] -> arp_request2 -> ARPResponder(PrZ) -> Print("ARP_R_int") ->destin_int_queue ;
-in_cl[1] -> arp_response2 -> [1]in_arp :: ARPQuerier(PrZ);
+external_class[0] -> arp_request_1 -> ARPResponder(DmZ) -> Print("ARP external interface") -> destin_ext_queue ;
+external_class[1] -> arp_response_1 -> [1]arp :: ARPQuerier(DmZ);
+
+// response to the routers internal interface
+internal_class[0] -> arp_request_2 -> ARPResponder(PrZ) -> Print("ARP internal interface") ->destin_int_queue ;
+internal_class[1] -> arp_response_2 -> [1]in_arp :: ARPQuerier(PrZ);
 
 
 destin_ext_arp_queue :: GetIPAddress(16) -> CheckIPHeader -> [0]arp -> destin_ext_queue;
 to_in_arp_queue :: GetIPAddress(16) -> CheckIPHeader -> [0]in_arp -> destin_int_queue;
 
 // Classifying IP traffic
-ext_cl[2] -> ip1 ->  Strip(14) -> CheckIPHeader
+external_class[2] -> ip_in ->  Strip(14) -> CheckIPHeader
 	-> ext_ipc :: IPClassifier(
 	// ping from out to gw
 		icmp && icmp type echo and dst $sw_ext_ip,
@@ -67,7 +72,7 @@ ext_cl[2] -> ip1 ->  Strip(14) -> CheckIPHeader
 		-
 	);
 
-in_cl[2] -> ip2 -> Strip(14) -> CheckIPHeader
+internal_class[2] -> ip_out -> Strip(14) -> CheckIPHeader
 	-> int_ipc :: IPClassifier(
 	// ping from in to gw
 		icmp && icmp type echo and dst $sw_int_ip, 
@@ -83,26 +88,26 @@ in_cl[2] -> ip2 -> Strip(14) -> CheckIPHeader
 // send back pings gw to outside
 ext_ipc[0] -> Print("ICMP ECHO FROM EXT->GW")
     -> ICMPPingResponder
-    -> icmp1
+    -> icmp_in1
     -> destin_ext_arp_queue ;
 
 // send back pings to inside from inside
 int_ipc[0] -> Print("ICMP ECHO FROM INT -> INT")
 	-> ICMPPingResponder
-	-> icmp2
+	-> icmp_out1
 	-> to_in_arp_queue;
 
 //Discard non-IP, non-ARP packets 
-ext_cl[3] -> Print("DISCARDING NON IP PACKET") -> drop1 -> Discard;
-in_cl[3] -> Print("DISCARDING NON IP PACKET") -> drop2 -> Discard;
+external_class[3] -> Print("DISCARDING NON IP PACKET") -> drop1 -> Discard;
+internal_class[3] -> Print("DISCARDING NON IP PACKET") -> drop2 -> Discard;
 
 ext_ipc[3] -> Print("DISCARDING UNWANTED IP PACKET") -> drop3 -> Discard;
 int_ipc[3] -> Print("DISCARDING UNWANTED IP PACKET") -> drop4 -> Discard;
 
 ping_rw :: ICMPPingRewriter(pattern $sw_ext_ip - - - 0 1)
 
-ping_rw[1] -> icmp3 ->  to_in_arp_queue
-ping_rw[0] -> icmp4 -> destin_ext_arp_queue
+ping_rw[1] -> icmp_in2 ->  to_in_arp_queue
+ping_rw[0] -> icmp_out2 -> destin_ext_arp_queue
 
 rw :: IPRewriter(pattern $sw_ext_ip 1024-65534 - - 0 1);
 
@@ -111,29 +116,29 @@ rw[0] -> SetTCPChecksum -> destin_ext_arp_queue;
 
 // FROM INTERNAL
 
-int_ipc[1] -> Print("IP from INT to EXT") -> [0]rw;
-int_ipc[2] -> Print("ICMP from INT to EXT") -> [0]ping_rw;
+int_ipc[1] -> Print("IP Traffic from INT to EXT") -> [0]rw;
+int_ipc[2] -> Print("ICMP Traffic from INT to EXT") -> [0]ping_rw;
 
 // FROM EXTERNAL
 
-ext_ipc[1] -> Print("IP from EXT to INT") -> [0]rw;
-ext_ipc[2] -> Print("ICMP from EXT to INT") -> [0]ping_rw;
+ext_ipc[1] -> Print("IP Traffic from EXT to INT") -> [0]rw;
+ext_ipc[2] -> Print("ICMP Traffic from EXT to INT") -> [0]ping_rw;
 
 
 
-// output the result of counter as report
-DriverManager(wait , print > ../../results/nat.counter  "
+// output the result of counter as report napt.counter
+DriverManager(wait , print > ../../results/napt.counter  "
 	=================== NAPT Report ===================
-	Input Packet Rate (pps): $(add $(counter_in1.rate) $(counter_in2.rate))
-	Output Packet Rate(pps): $(add $(counter_out1.rate) $(counter_out2.rate))
-	Total # of input packets: $(add $(counter_in1.count) $(counter_in2.count))
-	Total # of output packets: $(add $(counter_out1.count) $(counter_out2.count))
+	Input Packet Rate (pps): $(add $(count_in1.rate) $(count_in2.rate))
+	Output Packet Rate(pps): $(add $(count_out1.rate) $(count_out2.rate))
+	Total # of input packets: $(add $(count_in1.count) $(count_in2.count))
+	Total # of output packets: $(add $(count_out1.count) $(count_out2.count))
 	Total # of dropped packets: $(add $(drop1.count) $(drop2.count) $(drop3.count) $(drop4.count))
 	
-	Total # of service requests packets: $(add $(ip1.count) $(ip2.count))
-	Total # of ICMP packets: $(add $(icmp1.count) $(icmp2.count) $(icmp3.count) $(icmp4.count))
+	Total # of service requests packets: $(add $(ip_in.count) $(ip_out.count))
+	Total # of ICMP packets: $(add $(icmp_in1.count) $(icmp_out1.count) $(icmp_in2.count) $(icmp_out2.count))
 	
-	Total # of ARP requests packets: $(add $(arp_request1.count) $(arp_request2.count))
-	Total # of ARP responses packets: $(add $(arp_response1.count) $(arp_response2.count))
+	Total # of ARP requests packets: $(add $(arp_request_1.count) $(arp_request_2.count))
+	Total # of ARP responses packets: $(add $(arp_response_1.count) $(arp_response_2.count))
 	==================================================
 " , stop);
