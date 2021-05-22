@@ -34,11 +34,18 @@ class Topology(Topo):
         ws2 = self.addHost("ws2", ip="100.0.0.41/24", mac="00:00:00:00:00:06")
         ws3 = self.addHost("ws3", ip="100.0.0.42/24", mac="00:00:00:00:00:07")
         insp = self.addHost("insp", ip="100.0.0.30/24", mac="00:00:00:00:00:08")
+	
+	dpid = 80
+	dpid = hex( dpid )[ 2: ]
+	dpid = '0' * (16-len(dpid)) + dpid
+        lb1 = self.addSwitch("lb1", dpid = dpid)
+	
         self.addLink(ws1, sw4)
         self.addLink(ws2, sw4)
         self.addLink(ws3, sw4)
         self.addLink(sw2, ids)
-        self.addLink(ids, sw4)
+	self.addLink(ids, lb1)
+        self.addLink(lb1, sw4)
         self.addLink(ids, insp)
 
         # ### INTERZONE LINKS ###
@@ -83,7 +90,7 @@ def setup():
     # web servers
     start_web_servers(net)
     # virtual ip
-    start_arp(net)
+    #start_arp(net)
     # start tshark
     start_tshark(net)
 
