@@ -46,8 +46,8 @@ class FirewallController():
             logger.debug("Initializing IDS on switch %s" % (event.dpid))
             subprocess.Popen(["sudo", "click", "../nfv/ids.click", "in_intf=sw7-eth1", "out_intf=sw7-eth2", "insp_intf=sw7-eth3"])
         elif event.dpid == napt:
-            logger.debug("Initializing napt on switch %s" % (event.dpid))
-            subprocess.Popen(["sudo", "click", "../nfv/napt.click", "sw_int_ip=10.0.0.1", "sw_ext_ip=100.0.0.1"])
+            logger.debug("Initializing NAPT on switch %s" % (event.dpid))
+            subprocess.Popen(["sudo", "click", "../nfv/napt.click", "ext_if=sw8-eth1", "int_if=sw8-eth2"])
         else:
             logger.debug("Unknown switch dpid %s" % (event.dpid))
 

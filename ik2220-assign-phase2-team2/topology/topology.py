@@ -25,8 +25,8 @@ class Topology(Topo):
         self.addLink(h2, sw1)
 
         ### PRIVATE ZONE ###
-        h3 = self.addHost("h3", ip="100.0.0.50/24", mac="00:00:00:00:00:03")
-        h4 = self.addHost("h4", ip="100.0.0.51/24", mac="00:00:00:00:00:04")
+        h3 = self.addHost("h3", ip="10.0.0.50/24", mac="00:00:00:00:00:03")
+        h4 = self.addHost("h4", ip="10.0.0.51/24", mac="00:00:00:00:00:04")
         self.addLink(h3, sw3)
         self.addLink(h4, sw3)
 
